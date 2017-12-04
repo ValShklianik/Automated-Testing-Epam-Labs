@@ -3,4 +3,4 @@ Here are Labs
 
     I ♥ EPAM
  
- EPAM loves me
+ EPAM loves ME
