@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System.Linq;
 using System.Threading;
+using Selenium.Constants;
 
 namespace Selenium.Pages
 {
@@ -15,10 +16,10 @@ namespace Selenium.Pages
 
         public AirportPage FindByCity(string city)
         {
-            IWebElement input = driver.FindElement(By.ClassName("rm-ms_field"));
+            IWebElement input = driver.FindElement(By.CssSelector(AirportPageSelectors.InputCitySelector));
             input.SendKeys(city);
 
-            IWebElement findButton = driver.FindElement(By.ClassName("decor_button_text"));
+            IWebElement findButton = driver.FindElement(By.CssSelector(AirportPageSelectors.ButtonCitySeletor));
             findButton.Click();
 
             SEARCH = $"?search={city}";
@@ -29,14 +30,14 @@ namespace Selenium.Pages
         {
             //find list
             IWebElement topList = driver
-                .FindElements(By.ClassName("airport_top__list"))
+                .FindElements(By.CssSelector(AirportPageSelectors.TopListSelector))
                 .First();
 
             //select first airport in the list
             IWebElement firstItem = topList
-                .FindElements(By.ClassName("airport_top__item"))
+                .FindElements(By.CssSelector(AirportPageSelectors.FirstItemSelector))
                 .First()
-                .FindElement(By.TagName("a"));
+                .FindElement(By.CssSelector(AirportPageSelectors.FirstItemElementSelector));
 
             firstItem.Click();
 
@@ -47,8 +48,8 @@ namespace Selenium.Pages
         {
             //find link "Все 317 аэропортов России"
             IWebElement allRussianAirportLink = driver
-                .FindElements(By.TagName("a"))
-                .Where(el => el.Text == "Все 317 аэропортов России")
+                .FindElements(By.TagName(AirportPageSelectors.AllRussianAirportsSelector))
+                .Where(el => el.Text == AirportPageSelectors.AllRussianAirportsText)
                 .First();
 
             allRussianAirportLink.Click();

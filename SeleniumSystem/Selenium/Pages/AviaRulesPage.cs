@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using System.Linq;
+using Selenium.Constants;
 
 namespace Selenium.Pages
 {
@@ -15,8 +16,8 @@ namespace Selenium.Pages
         public AviaRulesPage AnswerSurvey(bool isArticleUseful)
         {
             IWebElement answer = isArticleUseful
-                ? driver.FindElement(By.ClassName("publication-voting-plus"))
-                : driver.FindElement(By.ClassName("publication-voting-minus"));
+                ? driver.FindElement(By.CssSelector(AviaRulesPageSelectors.AnswerPlusSelector))
+                : driver.FindElement(By.CssSelector(AviaRulesPageSelectors.AnswerMinusSelector));
 
             answer.Click();
 
@@ -27,8 +28,8 @@ namespace Selenium.Pages
         {
             //find link "купить авиабилеты"
             IWebElement buyingTickets = driver
-                .FindElements(By.TagName("a"))
-                .Where(el => el.Text == "купить авиабилеты")
+                .FindElements(By.CssSelector(AviaRulesPageSelectors.BuyingTicketsSelector))
+                .Where(el => el.Text == AviaRulesPageSelectors.BuyingTicketsText)
                 .First();
 
             buyingTickets.Click();
@@ -40,7 +41,7 @@ namespace Selenium.Pages
         {
             //find link among presented in RulesEnum
             IWebElement contacts = driver
-                .FindElements(By.TagName("a"))
+                .FindElements(By.TagName(AviaRulesPageSelectors.ContactsSelector))
                 .Where(el => el.Text == SectionName.Get(rule))
                 .First();
 

@@ -1,13 +1,36 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using System.Linq;
 using System.Threading;
+using OpenQA.Selenium.Support.PageObjects;
+using Selenium.Constants;
+using Selenium.Logging;
 
 namespace Selenium.Pages
 {
     public class MainPage : Page
     {
+
+        private readonly ILogger _logger = new NLogger();
         public static string URL { get; private set; } = "https://avia.tutu.ru/";
+
+        [FindsBy(How = How.CssSelector, Using = MainPageSelectors.TicketsFromDateCSS)]
+        public IWebElement fromDate;
+        [FindsBy(How = How.CssSelector, Using = MainPageSelectors.TicketsToDateCSS)]
+        public IWebElement toDate;
+        [FindsBy(How = How.CssSelector, Using = MainPageSelectors.TicketsCityFromCSS)]
+        public IWebElement cityFrom;
+        [FindsBy(How = How.CssSelector, Using = MainPageSelectors.TicketsCityToCSS)]
+        public IWebElement cityTo;
+        [FindsBy(How = How.CssSelector, Using = MainPageSelectors.TicketsSubmitButton)]
+        public IWebElement findTickects;
+
+        [FindsBy(How = How.CssSelector, Using = MainPageSelectors.LeaveOptionCSS)]
+        public IWebElement leaveOpinion;
+        [FindsBy(How = How.CssSelector, Using = MainPageSelectors.LeaveCommentCSS)]
+        public IWebElement comment;
+
 
         public MainPage(IWebDriver driver) : base(driver)
         {
@@ -19,22 +42,16 @@ namespace Selenium.Pages
             return this;
         }
 
-        public FindAirTicketsPage FindAirTickets()
+        public FindAirTicketsPage FindAirTickets(string fromDateValue, string toDateValue, string cityFromValue, string cityToVlue)
         {
-            IWebElement fromDate = driver.FindElement(By.ClassName("j-date_from"));
-            fromDate.SendKeys("30.12.2017");
+            fromDate.SendKeys(fromDateValue);
 
-            IWebElement toDate = driver.FindElement(By.ClassName("j-date_back"));
-            toDate.SendKeys("01.01.2018");
+            toDate.SendKeys(toDateValue);
 
-            IWebElement cityFrom = driver.FindElement(By.ClassName("j-city_from"));
-            cityFrom.SendKeys("Минск");
+            cityFrom.SendKeys(cityFromValue);
 
-            IWebElement cityTo = driver.FindElement(By.ClassName("j-city_to"));
-            cityTo.SendKeys("Санкт-Петербург");
+            cityTo.SendKeys(cityToVlue);
 
-
-            IWebElement findTickects = driver.FindElement(By.ClassName("j-submit_button"));
             Thread.Sleep(1_000); //wait for 1 second
             findTickects.Click();
 
@@ -43,16 +60,15 @@ namespace Selenium.Pages
 
         public MainPage LeaveOpinion(string message)
         {
-            IWebElement leaveOpinion = driver.FindElement(By.ClassName("j-add_review_text"));
+            _logger.Debug(DateTime.Now, "leave option clicked");
             leaveOpinion.Click();
 
-            IWebElement comment = driver.FindElement(By.ClassName("j-comment"));
             comment.SendKeys(message);
 
             //find button "Отправить"
             IWebElement button = driver
-                .FindElements(By.ClassName("j-button"))
-                .Where(el => el.FindElement(By.ClassName("name")).Text == "Отправить")
+                .FindElements(By.CssSelector(MainPageSelectors.LeaveButtonCSS))
+                .Where(el => el.FindElement(By.CssSelector(MainPageSelectors.LeaveButtonElementCSS)).Text == MainPageSelectors.LeaveButtonText)
                 .First();
 
             button.Click();
@@ -64,11 +80,12 @@ namespace Selenium.Pages
         {
             //find link "Правила заказа авиабилетов"
             IWebElement rules = driver
-                .FindElements(By.TagName("a"))
-                .Where(el => el.Text == "Правила заказа авиабилетов")
+                .FindElements(By.CssSelector(MainPageSelectors.OrderingRulesTicketTag))
+                .Where(el => el.Text == MainPageSelectors.OrderingRulesText)
                 .First();
 
             rules.Click();
+            _logger.Debug(DateTime.Now, "ordering air ticket rule clicked");
 
             return new AviaRulesPage(driver);
         }
@@ -77,11 +94,12 @@ namespace Selenium.Pages
         {
             //find link "Аэропорты"
             IWebElement rules = driver
-                .FindElements(By.TagName("a"))
-                .Where(el => el.Text == "Аэропорты")
+                .FindElements(By.CssSelector(MainPageSelectors.AirportTag))
+                .Where(el => el.Text == MainPageSelectors.AirportText)
                 .First();
 
             rules.Click();
+            _logger.Debug(DateTime.Now, "open airport clicked");
 
             return new AirportPage(driver);
         }

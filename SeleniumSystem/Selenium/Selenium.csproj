@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -49,7 +52,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\AirportPageSelectors.cs" />
+    <Compile Include="Constants\AviaRulesPageSelectors.cs" />
+    <Compile Include="Constants\MainPageSelectors.cs" />
     <Compile Include="Driver\DriverInstance.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\NLogger.cs" />
     <Compile Include="Pages\AirportPage.cs" />
     <Compile Include="Pages\AviaRulesPage.cs" />
     <Compile Include="Pages\FindAirTicketsPage.cs" />
