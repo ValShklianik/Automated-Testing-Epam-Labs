@@ -8,28 +8,14 @@ using System.Threading;
 namespace Selenium.Test.Pages
 {
     [TestFixture]
-    public class AviaRulesPageTest
+    public class AviaRulesPageTest : BaseTest
     {
-        private IWebDriver driver;
-
-        [SetUp]
-        public void Init()
-        {
-            driver = DriverInstance.Get();
-            DriverInstance.SetWaitTime(30);
-        }
-
-        [TearDown]
-        public void Close()
-        {
-            DriverInstance.Close();
-        }
 
         [Test]
         public void GoToBuyingAirTickets()
         {
             MainPage mainPage = new MainPage(driver);
-            mainPage.Open().OrderingAirTicketsRules().GoToBuyingAirTickets();
+            ((AviaRulesPage)((MainPage)mainPage.Open()).OrderingAirTicketsRules()).GoToBuyingAirTickets(); ;
             
             Assert.AreEqual(driver.Url, MainPage.URL);
         }
@@ -39,7 +25,7 @@ namespace Selenium.Test.Pages
         public void AnswerSurvey(bool isSurveyUseful)
         {
             MainPage mainPage = new MainPage(driver);
-            mainPage.Open().OrderingAirTicketsRules().AnswerSurvey(isSurveyUseful);
+            ((AviaRulesPage)((MainPage)mainPage.Open()).OrderingAirTicketsRules()).AnswerSurvey(isSurveyUseful); ;
             Thread.Sleep(1_000); //wait for 1 second
 
             IWebElement thanksForAnAnswer = driver.FindElement(By.ClassName("publication-voting"));
@@ -57,7 +43,7 @@ namespace Selenium.Test.Pages
         public void ChooseSection(RulesEnum rules)
         {
             MainPage mainPage = new MainPage(driver);
-            mainPage.Open().OrderingAirTicketsRules().ChooseSection(rules);
+            ((AviaRulesPage)((MainPage)mainPage.Open()).OrderingAirTicketsRules()).ChooseSection(rules); ;
 
             Assert.AreEqual(driver.Url, AviaRulesPage.URL + AviaRulesPage.SECTION);
         }

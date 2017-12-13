@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Pages\AirportPageTest.cs" />
     <Compile Include="Pages\AviaRulesPageTest.cs" />
+    <Compile Include="Pages\BaseTest.cs" />
     <Compile Include="Pages\MainPageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

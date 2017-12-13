@@ -14,7 +14,7 @@ namespace Selenium.Pages
         {
         }
 
-        public AirportPage FindByCity(string city)
+        public Page FindByCity(string city)
         {
             IWebElement input = driver.FindElement(By.CssSelector(AirportPageSelectors.InputCitySelector));
             input.SendKeys(city);
@@ -26,7 +26,7 @@ namespace Selenium.Pages
             return this;
         }
 
-        public AirportPage OpenMostPopularRussianAirport()
+        public Page OpenMostPopularRussianAirport()
         {
             //find list
             IWebElement topList = driver
@@ -44,7 +44,7 @@ namespace Selenium.Pages
             return this;
         }
 
-        public RussianAirportsPage OpenAllRussianAirports()
+        public Page OpenAllRussianAirports()
         {
             //find link "Все 317 аэропортов России"
             IWebElement allRussianAirportLink = driver

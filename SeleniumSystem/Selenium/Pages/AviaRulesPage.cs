@@ -13,7 +13,7 @@ namespace Selenium.Pages
         {
         }
 
-        public AviaRulesPage AnswerSurvey(bool isArticleUseful)
+        public Page AnswerSurvey(bool isArticleUseful)
         {
             IWebElement answer = isArticleUseful
                 ? driver.FindElement(By.CssSelector(AviaRulesPageSelectors.AnswerPlusSelector))
@@ -24,7 +24,7 @@ namespace Selenium.Pages
             return this;
         }
 
-        public MainPage GoToBuyingAirTickets()
+        public Page GoToBuyingAirTickets()
         {
             //find link "купить авиабилеты"
             IWebElement buyingTickets = driver
@@ -37,7 +37,7 @@ namespace Selenium.Pages
             return new MainPage(driver);
         }
 
-        public AviaRulesPage ChooseSection(RulesEnum rule)
+        public Page ChooseSection(RulesEnum rule)
         {
             //find link among presented in RulesEnum
             IWebElement contacts = driver

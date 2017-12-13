@@ -9,22 +9,8 @@ using System.Web;
 namespace Selenium.Test.Pages
 {
     [TestFixture]
-    public class AirportPageTest
+    public class AirportPageTest : BaseTest
     {
-        private IWebDriver driver;
-
-        [SetUp]
-        public void Init()
-        {
-            driver = DriverInstance.Get();
-            DriverInstance.SetWaitTime(30);
-        }
-
-        [TearDown]
-        public void Close()
-        {
-            DriverInstance.Close();
-        }
 
         [TestCase("Минск")]
         [TestCase("Барселона")]
@@ -32,7 +18,7 @@ namespace Selenium.Test.Pages
         public void FindByCity(string city)
         {
             MainPage mainPage = new MainPage(driver);
-            mainPage.Open().OpenAirports().FindByCity(city);
+            ((AirportPage)((MainPage)mainPage.Open()).OpenAirports()).FindByCity(city);
             
             //encode because of russian letters
             Assert.IsTrue(string.Compare(driver.Url, 
@@ -44,7 +30,7 @@ namespace Selenium.Test.Pages
         public void OpenMostPopularRussianAirport()
         {
             MainPage mainPage = new MainPage(driver);
-            mainPage.Open().OpenAirports().OpenMostPopularRussianAirport();
+            ((AirportPage)((MainPage)mainPage.Open()).OpenAirports()).OpenMostPopularRussianAirport();
 
             Assert.AreEqual(driver.Url, MostPopularRussianAirportPage.URL);
         }
@@ -53,7 +39,7 @@ namespace Selenium.Test.Pages
         public void OpenAllRussianAirports()
         {
             MainPage mainPage = new MainPage(driver);
-            mainPage.Open().OpenAirports().OpenAllRussianAirports();
+            ((AirportPage)((MainPage)mainPage.Open()).OpenAirports()).OpenAllRussianAirports();
 
             Assert.AreEqual(driver.Url, RussianAirportsPage.URL);
         }

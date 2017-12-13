@@ -13,38 +13,33 @@ namespace Selenium.Driver
 
         public static IWebDriver Get()
         {
-            if (driver == null)
+            if (driver != null) return driver;
+            driver = new ChromeDriver();
+
+            var firingDriver = new EventFiringWebDriver(driver);
+
+            firingDriver.ElementClicked += (sender, args) =>
             {
-                if (driver == null)
-                {
-                    driver = new ChromeDriver();
+                logger.Debug(DateTime.Now, "element clicked");
+            };
 
-                    var firingDriver = new EventFiringWebDriver(driver);
+            firingDriver.ElementClicking += (sender, args) =>
+            {
+                logger.Debug(DateTime.Now, "element clicking");
+            };
 
-                    firingDriver.ElementClicked += (sender, args) =>
-                    {
-                        logger.Debug(DateTime.Now, "element clicked");
-                    };
+            firingDriver.FindElementCompleted += (sender, args) =>
+            {
+                logger.Debug(DateTime.Now, "element found");
+            };
 
-                    firingDriver.ElementClicking += (sender, args) =>
-                    {
-                        logger.Debug(DateTime.Now, "element clicking");
-                    };
+            firingDriver.ExceptionThrown += (sender, args) =>
+            {
+                Exception e = args.ThrownException;
+                logger.Error(DateTime.Now, e?.Message, e?.StackTrace);
+            };
 
-                    firingDriver.FindElementCompleted += (sender, args) =>
-                    {
-                        logger.Debug(DateTime.Now, "element found");
-                    };
-
-                    firingDriver.ExceptionThrown += (sender, args) =>
-                    {
-                        Exception e = args.ThrownException;
-                        logger.Error(DateTime.Now, e?.Message, e?.StackTrace);
-                    };
-
-                    driver = firingDriver;
-                }
-            }
+            driver = firingDriver;
 
             return driver;
         }

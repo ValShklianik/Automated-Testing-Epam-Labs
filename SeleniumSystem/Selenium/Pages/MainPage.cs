@@ -36,7 +36,7 @@ namespace Selenium.Pages
         {
         }
 
-        public MainPage Open()
+        public Page Open()
         {
             driver.Navigate().GoToUrl(URL);
             return this;
@@ -58,7 +58,7 @@ namespace Selenium.Pages
             return new FindAirTicketsPage(driver);
         }
 
-        public MainPage LeaveOpinion(string message)
+        public Page LeaveOpinion(string message)
         {
             _logger.Debug(DateTime.Now, "leave option clicked");
             leaveOpinion.Click();
@@ -76,7 +76,7 @@ namespace Selenium.Pages
             return this;
         }
 
-        public AviaRulesPage OrderingAirTicketsRules()
+        public Page OrderingAirTicketsRules()
         {
             //find link "Правила заказа авиабилетов"
             IWebElement rules = driver
@@ -90,7 +90,7 @@ namespace Selenium.Pages
             return new AviaRulesPage(driver);
         }
 
-        public AirportPage OpenAirports()
+        public Page OpenAirports()
         {
             //find link "Аэропорты"
             IWebElement rules = driver

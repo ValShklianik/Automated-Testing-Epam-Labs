@@ -6,23 +6,12 @@ using Selenium.Pages;
 namespace Selenium.Test.Pages
 {
     [TestFixture]
-    public class MainPageTest
+    public class MainPageTest : BaseTest
     {
-        private IWebDriver driver;
+        private string clName = "success_title";
+        private string leaveOpinion = "Thank you for your work!";
 
-        [SetUp]
-        public void Init()
-        {
-            driver = DriverInstance.Get();
-            DriverInstance.SetWaitTime(30);
-        }
-
-        [TearDown]
-        public void Close()
-        {
-            DriverInstance.Close();
-        }
-
+       
         [Test]
         public void OpenMainPage()
         {
@@ -37,8 +26,8 @@ namespace Selenium.Test.Pages
         public void LeaveOpinion()
         {
             MainPage mainPage = new MainPage(driver);
-            mainPage.Open().LeaveOpinion("Thank you for your work!");
-            IWebElement title = driver.FindElement(By.ClassName("success_title"));
+            ((MainPage)mainPage.Open()).LeaveOpinion(leaveOpinion);
+            IWebElement title = driver.FindElement(By.ClassName(clName));
 
             Assert.IsTrue(title.Displayed);
         }
@@ -47,7 +36,7 @@ namespace Selenium.Test.Pages
         public void OrderingAirTicketsRules()
         {
             MainPage mainPage = new MainPage(driver);
-            mainPage.Open().OrderingAirTicketsRules();
+            ((MainPage)mainPage.Open()).OrderingAirTicketsRules();
 
             Assert.AreEqual(driver.Url, AviaRulesPage.URL);
         }
@@ -56,7 +45,7 @@ namespace Selenium.Test.Pages
         public void OpenAirports()
         {
             MainPage mainPage = new MainPage(driver);
-            mainPage.Open().OpenAirports();
+            ((MainPage)mainPage.Open()).OpenAirports();
 
             Assert.AreEqual(driver.Url, AirportPage.URL);
         }
